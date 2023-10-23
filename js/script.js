@@ -1,5 +1,5 @@
 // coding implementation
-// end coding implementation
+
 const emailEle = document.getElementById('email');
 const rateEle = document.getElementById('rate');
 const cmtEle = document.getElementById('com');
@@ -65,3 +65,4 @@ function checkValidate() {
 
     return isCheck;
 }
+// end coding implementation
