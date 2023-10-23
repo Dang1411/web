@@ -1,35 +1,67 @@
 // coding implementation
-
-var ck_email = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
-var ck_rating = /^[0-9]{0,5}$/;
-
-function validate(form){
-    var email = form.email.value;
-    var rating = form.rating.value;
-    var errors = [];
-
-    if(!ck_email.test(email)) {
-        errors[errors.length] = "You must enter a valid email address.";
-    }
-
-    if(!ck_rating.test(rating)) {
-        errors[errors.length] = "You must enter a valid rating";
-    }
-
-    if(errors.length > 0){
-        reportErrors(errors);
-        return false;
-    }
-    return true;
-}
-
-function reportErrors(errors){
-    var msg = "Please Enter Valide Data...\n";
-    for(var i=0; i<errors.length; i++){
-        var numError = i+1;
-        msg += "\n" + numError + ". " + errors[i];
-    }
-    alert(msg);
-}
-
 // end coding implementation
+const emailEle = document.getElementById('email');
+const rateEle = document.getElementById('rate');
+const cmtEle = document.getElementById('com');
+const subRegister = document.getElementById('submit');
+const inputEles = document.querySelectorAll('input');
+
+subRegister.addEventListener('click', function () {
+    Array.from(inputEles).map((ele) => ele.classList.remove('success', 'error'));
+    let isValid = checkValidate();
+
+    if (isValid) {
+        alert('gui dang ky thanh cong');
+    }
+});
+function setSuccess(ele) {
+    ele.parentNode.classList.add('success');
+}
+
+function setError(ele, message) {
+    let parentEle = ele.parentNode;
+    parentEle.classList.add('error');
+    parentEle.querySelector('small').innerText = message;
+}
+
+function isEmail(email) {
+    return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
+}
+
+function isRate(number) {
+    return /([0-5]{1})\b/.test(number);
+}
+
+function checkValidate() {
+    let emailValue = emailEle.value;
+    let rateValue = rateEle.value;
+    let cmtValue = cmtEle.value;
+    let isCheck = true;
+
+    if (cmtValue === '') {
+        alert('Cmt khong duoc de trong');
+        isCheck = false;
+    }
+
+    if (emailValue === '') {
+        alert('Email khong duoc de trong');
+        isCheck = false;
+    } else if (!isEmail(emailValue)) {
+        alert('Email khong dung dinh dang');
+        isCheck = false;
+    } else {
+        setSuccess(emailEle);
+    }
+
+    if (rateValue === '') {
+        alert('danh gia khong duoc de trong');
+        isCheck = false;
+    } else if (!isRate(rateValue)) {
+        alert('danh gia sai dinh dang');
+        isCheck = false;
+    } else {
+        setSuccess(rateEle);
+    }
+
+    return isCheck;
+}
